@@ -88,6 +88,8 @@ def init():
     # obtain locations of available slots
     triages = Triage.query.filter(Triage.available>0)
     locations = list(set([(t.location) for t in triages if show_for_booking(t, str(reference.expire_on))]))
+    if locations is not None:
+        locations.sort()
     bookingForm.location.choices = [('', 'Choose Location')] + [
         (l, l) for l in locations]
     
