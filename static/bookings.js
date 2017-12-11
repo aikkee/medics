@@ -15,7 +15,7 @@ $(function() {
     "Hougang Ave 8":"Blk 684 Hougang Ave 8",
     "Hougang Mall":"90 Hougang Ave 10",
     "Hougang Ave 1":"108 Hougang Avenue 1",
-    "Jurong East	3":"Gateway Drive",
+    "Jurong East":"Gateway Drive",
     "Kembangan":"Blk 110 Lengkong Tiga",
     "Novena":"238 Thomson Road",
     "Orchard":"176 Orchard Road",
