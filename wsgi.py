@@ -1,5 +1,7 @@
 import os
 import json
+import logging
+from logging.handlers import RotatingFileHandler
 
 from flask import Flask, render_template, redirect, session, url_for, \
                   request, make_response, send_from_directory, abort, flash
@@ -129,7 +131,8 @@ def save():
         reference.triage_id = tid
         reference.update_on = datetime.datetime.now()
             
-        triage.available = triage.available - 1 
+        # triage.available = triage.available - 1 
+        triage.available = 0
 
         application.logger.info('Draw down from Triage ID: %s for Reference ID: %s' % (tid, reference.id))
 
@@ -265,6 +268,10 @@ def test():
 
 #----------main codes----------------------
 if __name__ == '__main__':
+    logfile = application.config['LOG_FILE']
+    handler = RotatingFileHandler(logfile, maxBytes=100000, backupCount=1)
+    handler.setLevel(logging.INFO)
+    application.logger.addHandler(handler)
     application.run()
 
  
