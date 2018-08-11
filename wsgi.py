@@ -137,7 +137,7 @@ def save():
         application.logger.info('Draw down from Triage ID: %s for Reference ID: %s' % (tid, reference.id))
 
         db.session.commit()
-        flash('Thank you for your submission.  Your session on %s at %s is confirmed.' %
+        flash('Thank you for your submission.  Your booking for %s at %s is confirmed.' %
                 (triage.description, triage.location))
         return render_template('acknowledge.html')
 
@@ -222,7 +222,7 @@ def import_case():
                                       initializers=([ref_init_func]))
         flash('HTMB cases created')
         return render_template('acknowledge.html')
-    return render_template('import.html', title='Import HTMB Referrals')
+    return render_template('import.html', title='Import Pre-IPPT')
 
 @application.route("/admin/import_slot", methods=['GET', 'POST'])
 def import_slot():
@@ -239,7 +239,7 @@ def import_slot():
                                       initializers=([triage_init_func]))
         flash('HTMB timeslot created')
         return render_template('acknowledge.html')
-    return render_template('import.html', title='Import HTMB Timeslot')
+    return render_template('import.html', title='Import Parkway Timeslot')
 
 @application.route("/admin/export_booking", methods=['GET'])
 def doexport():
