@@ -102,24 +102,26 @@ def init():
 
 @application.route('/save', methods=['POST'])
 def save():
-
     if request.form.get('date_time')=="":
         flash('Both fields are required.')
         return redirect(redirect_url())
 
     b_ref = request.form.get('booking_ref')
     tid = request.form.get('date_time', type=int)
+    triage = Triage.query.filter(Triage.id==tid).first()
+    if (triage is None or triage.available is None):
+        flash('Sorry. Unable to book slot. Please try again.')
+        return redirect(redirect_url())
 
     reference = Reference.query.filter(Reference.booking_ref==b_ref).first()
     # Release booking slot
     if reference.triage_id is not None:
         booked_triage = Triage.query.filter(Triage.id==reference.triage_id).first()
         if booked_triage is not None:
-            booked_triage.available = booked_triage.available + 1 
-            application.logger.info('Return slot for Triage ID: %r' % booked_triage.id)
+            booked_triage.available = 1 
+            application.logger.info('Return slot Triage ID: %r for Reference ID: %r' % (booked_triage.id, reference.id))
             db.session.commit()
 
-    triage = Triage.query.filter(Triage.id==tid).first()
     if triage.available == 0:
         # Fully booked, cannot accept anymore
         m = {'location':triage.location, \
@@ -130,14 +132,11 @@ def save():
         # update new booking
         reference.triage_id = tid
         reference.update_on = datetime.datetime.now()
-            
-        # triage.available = triage.available - 1 
-        triage.available = 0
-
+        triage.available = 0 
         application.logger.info('Draw down from Triage ID: %s for Reference ID: %s' % (tid, reference.id))
 
         db.session.commit()
-        flash('Thank you for your submission.  Your booking for %s at %s is confirmed.' %
+        flash('Thank you for your submission.  Your session on %s at %s is confirmed.' %
                 (triage.description, triage.location))
         return render_template('acknowledge.html')
 
