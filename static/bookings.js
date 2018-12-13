@@ -27,7 +27,8 @@ $(function() {
     "Serangoon":"Blk 263 Serangoon Central Dr",
     "Shenton Way":"50 Robinson Road",
     "Tanjong Pagar":"10 Anson Road",
-    "Woodlands":"Woodlands MRT"}
+    "Woodlands":"Woodlands MRT",
+    "Sentosa (RWS)":"26 Sentosa Gateway (#B2-01)"}
   function getAddress(k){
     return addrLookup[k];
   }
